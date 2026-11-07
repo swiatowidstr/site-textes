@@ -1,0 +1,89 @@
+{
+  "titre": {
+    "fr": "[TITRE DU LIVRE]",
+    "en": "[BOOK TITLE]",
+    "ar": "[عنوان الكتاب]"
+  },
+  "auteur": "[AUTEUR]",
+  "accroche": {
+    "fr": "[Une phrase d'accroche qui donne envie de lire.]",
+    "en": "[A one-line hook that makes people want to read.]",
+    "ar": "[جملة جذابة تشجع على القراءة.]"
+  },
+  "presentation": {
+    "fr": [
+      "[Présentation du livre : deux ou trois phrases sur l'histoire, le thème ou ce que le lecteur va découvrir.]",
+      "[Un second paragraphe facultatif : le ton, le public, pourquoi ce livre.]"
+    ],
+    "en": [
+      "[Book description: two or three sentences about the story, the theme or what readers will discover.]",
+      "[An optional second paragraph: tone, audience, why this book.]"
+    ],
+    "ar": [
+      "[تقديم الكتاب: جملتان أو ثلاث عن القصة أو الموضوع أو ما سيكتشفه القارئ.]",
+      "[فقرة ثانية اختيارية: الأسلوب والجمهور ولماذا هذا الكتاب.]"
+    ]
+  },
+  "couverture": "img/couverture.svg",
+  "pack": {
+    "prix": 9.99,
+    "lienAchat": ""
+  },
+  "chapitres": [
+    {
+      "numero": 1,
+      "gratuit": true,
+      "prix": 0,
+      "lienAchat": "",
+      "titre": {
+        "fr": "Titre du chapitre 1",
+        "en": "Chapter 1 title",
+        "ar": "عنوان الفصل 1"
+      }
+    },
+    {
+      "numero": 2,
+      "gratuit": false,
+      "prix": 2.99,
+      "lienAchat": "",
+      "titre": {
+        "fr": "Titre du chapitre 2",
+        "en": "Chapter 2 title",
+        "ar": "عنوان الفصل 2"
+      }
+    },
+    {
+      "numero": 3,
+      "gratuit": false,
+      "prix": 2.99,
+      "lienAchat": "",
+      "titre": {
+        "fr": "Titre du chapitre 3",
+        "en": "Chapter 3 title",
+        "ar": "عنوان الفصل 3"
+      }
+    },
+    {
+      "numero": 4,
+      "gratuit": false,
+      "prix": 2.99,
+      "lienAchat": "",
+      "titre": {
+        "fr": "Titre du chapitre 4",
+        "en": "Chapter 4 title",
+        "ar": "عنوان الفصل 4"
+      }
+    },
+    {
+      "numero": 5,
+      "gratuit": false,
+      "prix": 2.99,
+      "lienAchat": "",
+      "titre": {
+        "fr": "Titre du chapitre 5",
+        "en": "Chapter 5 title",
+        "ar": "عنوان الفصل 5"
+      }
+    }
+  ]
+}

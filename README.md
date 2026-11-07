@@ -1,54 +1,45 @@
 # [NOM DU SITE]
 
-Site statique multilingue (20 langues) qui répertorie des textes découpés en chapitres.
-HTML/CSS/JS natif : il n'y a ni dépendance ni étape de build.
+Site statique en 20 langues pour publier un livre chapitre par chapitre et vendre chaque chapitre en ebook.
+Il est écrit en HTML/CSS/JS natif : il n'y a ni dépendance ni étape de build. Les paiements passent par **Lemon Squeezy**, dont la fenêtre de paiement s'ouvre sur la page.
 
 ## Lancer en local
-
-Les fichiers JSON sont chargés avec `fetch`, ce qui ne marche pas en ouvrant `index.html` en double-clic. Lance plutôt un petit serveur :
 
 ```
 python -m http.server 8000
 ```
 
-Ouvre ensuite http://localhost:8000
+Ouvre ensuite http://localhost:8000. Le double-clic sur `index.html` ne fonctionne pas, car les JSON sont chargés avec `fetch`.
 
-## Personnaliser
+## Remplir le livre
 
-Tous les réglages se trouvent dans `config.json` :
+| Quoi | Où |
+|---|---|
+| Nom du site, devise, formats, langues | `config.json` |
+| Titre, auteur, accroche, présentation, prix, liens d'achat | `data/livre.json` |
+| Texte d'un chapitre, par langue | `data/chapitres/{numéro}/{code}.json` |
+| Couverture | `img/couverture.svg` (ou une autre image : modifie `couverture` dans `livre.json`) |
+| Mentions légales | `data/mentions/fr.json` (à compléter et à faire valider) |
 
-- `nom` et `sujet` : une chaîne, ou un objet par langue (`{ "fr": "…", "en": "…" }`).
-- `langueParDefaut` : langue utilisée pour une première visite si le navigateur ne correspond à aucune langue, et pour le repli quand un contenu n'est pas traduit.
-- `langues` : liste des langues (`code`, nom affiché dans la langue, `dir` = `ltr` ou `rtl`).
+**Important : pour un chapitre payant, ne mets que l'extrait dans `data/chapitres/…`.**
+Le dépôt GitHub est public, donc tout ce qui s'y trouve est lisible par tous. Le chapitre complet ne doit exister que dans le fichier EPUB/PDF déposé sur Lemon Squeezy.
 
-Les couleurs sont définies en variables au début de `css/style.css`.
+Les fichiers de la langue par défaut (`fr`) sont obligatoires. Pour les autres langues, si un fichier manque, le site affiche la version française avec un bandeau « non traduit ».
 
-## Ajouter un texte
+## Brancher Lemon Squeezy
 
-1. Dans `data/textes.json`, ajoute une entrée :
-   ```json
-   { "slug": "mon-texte", "chapitres": 2,
-     "titre":  { "fr": "Mon texte", "en": "My text" },
-     "resume": { "fr": "…", "en": "…" } }
-   ```
-2. Crée `data/textes/mon-texte/fr.json` (puis `en.json`, `ar.json`…) :
-   ```json
-   { "chapitres": [
-       { "numero": 1, "titre": "Chapitre 1", "contenu": ["Paragraphe 1", "Paragraphe 2"] }
-   ] }
-   ```
+1. Crée un compte sur lemonsqueezy.com et une boutique (Store).
+2. Crée un produit par chapitre, plus un pour le livre complet. Dans chaque produit, ajoute les fichiers EPUB + PDF dans *Files*.
+3. Pour chaque produit, va dans *Share* et copie le lien d'achat (`https://<boutique>.lemonsqueezy.com/buy/…`).
+4. Colle chaque lien dans `data/livre.json` → `lienAchat` du chapitre ou du `pack`, et vérifie que le `prix` affiché est le même que dans Lemon Squeezy.
 
-Le fichier de la langue par défaut est obligatoire. Pour les autres langues, si le fichier n'existe pas, le site affiche la version par défaut avec un bandeau « non traduit ».
-
-## Ajouter un chapitre
-
-Ajoute un objet dans le tableau `chapitres` de chaque fichier de langue du texte, puis mets à jour le nombre `chapitres` dans `data/textes.json`.
+Tant que `lienAchat` est vide, le bouton affiche « Bientôt disponible ».
 
 ## Ajouter une langue
 
-1. Ajoute-la dans `config.json` → `langues`.
+1. Ajoute-la dans `config.json` → `langues` (`code`, nom dans la langue, `dir` = `ltr` ou `rtl`).
 2. Copie `i18n/fr.json` vers `i18n/{code}.json` et traduis les libellés.
 
-## Mise en ligne
+## Mettre en ligne
 
-Dépose le dossier tel quel sur GitHub Pages, Netlify ou tout autre hébergement statique.
+Le site est publié par GitHub Pages depuis la branche `main`. Un `git push` suffit, et la mise à jour prend 1 à 2 minutes.

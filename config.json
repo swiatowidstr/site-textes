@@ -1,7 +1,8 @@
 {
   "nom": "[NOM DU SITE]",
-  "sujet": "[SUJET]",
   "langueParDefaut": "fr",
+  "devise": "EUR",
+  "formats": "EPUB + PDF",
   "langues": [
     {
       "code": "fr",

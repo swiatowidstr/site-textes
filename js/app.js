@@ -2,13 +2,15 @@
   'use strict';
 
   const app = document.getElementById('app');
+  const barre = document.getElementById('progression');
   const ECHELLES = [0.9, 1, 1.15, 1.3, 1.5];
   const cache = new Map();
 
   let config;
-  let textes = [];
+  let livre;
   let ui = {};
   let langue = null;
+  let vueCourante = null;
   let premierRendu = true;
   let jeton = 0; // ignore les rendus devenus obsolètes
 
@@ -48,7 +50,7 @@
   }
 
   const nomSite = () => traduire(config.nom).texte;
-  const normaliser = s => s.toLocaleLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
+  const titreLivre = () => traduire(livre.titre).texte;
 
   function el(tag, attrs = {}, ...enfants) {
     const n = document.createElement(tag);
@@ -58,22 +60,64 @@
       else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
       else n.setAttribute(k, v === true ? '' : v);
     }
-    for (const e of enfants.flat()) if (e != null && e !== false) n.append(e);
+    for (const e of enfants.flat(Infinity)) if (e != null && e !== false) n.append(e);
     return n;
   }
 
-  // Élément affichant une valeur traduite ; marque lang/dir quand c'est la langue de repli
-  function elTrad(tag, attrs, valeur) {
-    const { texte, langue: l } = traduire(valeur);
-    if (l && l !== langue) Object.assign(attrs, { lang: l, dir: sens(l) });
-    return el(tag, attrs, texte);
+  // Attributs lang/dir à poser quand un contenu s'affiche dans la langue de repli
+  function attrsLangue(l) {
+    return l && l !== langue ? { lang: l, dir: sens(l) } : {};
   }
 
-  const attrsRepli = repli => repli ? { lang: config.langueParDefaut, dir: sens(config.langueParDefaut) } : {};
+  // Élément affichant une valeur traduite
+  function elTrad(tag, attrs, valeur) {
+    const { texte, langue: l } = traduire(valeur);
+    return el(tag, { ...attrs, ...attrsLangue(l) }, texte);
+  }
+
   const lien = (...parties) => '#/' + [langue, ...parties].map(encodeURIComponent).join('/');
   const fleche = c => el('span', { class: 'fleche', 'aria-hidden': 'true' }, c);
-  const titrePage = (...enfants) => el('h1', { id: 'titre-page', tabindex: '-1' }, ...enfants);
+  const titrePage = (attrs, ...enfants) => el('h1', { id: 'titre-page', tabindex: '-1', ...attrs }, ...enfants);
   const bandeau = () => el('p', { class: 'bandeau', role: 'note' }, t('nonTraduit'));
+
+  function formatPrix(prix) {
+    try {
+      return new Intl.NumberFormat(langue, { style: 'currency', currency: config.devise }).format(prix);
+    } catch {
+      return `${prix} ${config.devise}`;
+    }
+  }
+
+  function icone(chemin) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('class', 'icone');
+    svg.setAttribute('aria-hidden', 'true');
+    const p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', chemin);
+    svg.append(p);
+    return svg;
+  }
+  const ICONE_CADENAS = 'M6 10h12v10H6zM8.5 10V7a3.5 3.5 0 0 1 7 0v3';
+
+  // ---------- Achat ----------
+
+  const lienAchatValide = url => typeof url === 'string' && /^https:\/\/\S+$/.test(url);
+
+  // Bouton d'achat Lemon Squeezy : ouvre la fenêtre de paiement par-dessus la page
+  function boutonAchat(lienAchat, prix) {
+    if (!lienAchatValide(lienAchat)) {
+      return el('span', { class: 'bouton', 'aria-disabled': 'true' }, t('bientot'));
+    }
+    const url = new URL(lienAchat);
+    url.searchParams.set('embed', '1');
+    return el('a', { class: 'bouton lemonsqueezy-button', href: url.href }, t('acheter', { prix: formatPrix(prix) }));
+  }
+
+  function activerPaiement() {
+    try { window.createLemonSqueezy?.(); } catch (e) { console.error(e); }
+  }
 
   // ---------- Langue ----------
 
@@ -97,144 +141,214 @@
     html.lang = code;
     html.dir = sens(code);
 
-    document.getElementById('lien-skip').textContent = t('skip');
-    document.getElementById('label-langue').textContent = t('langue');
-    document.getElementById('label-taille').textContent = t('tailleTexte');
-    document.getElementById('txt-reduire').textContent = t('reduire');
-    document.getElementById('txt-agrandir').textContent = t('agrandir');
+    const texte = (id, val) => { document.getElementById(id).textContent = val; };
+    texte('lien-skip', t('skip'));
+    texte('label-langue', t('langue'));
+    texte('label-taille', t('tailleTexte'));
+    texte('txt-reduire', t('reduire'));
+    texte('txt-agrandir', t('agrandir'));
+    texte('lien-accueil', nomSite());
+    texte('nav-livre', t('livre'));
+    texte('nav-chapitres', t('chapitres'));
+    texte('nav-boutique', t('boutique'));
+    texte('lien-mentions', t('mentions'));
+    texte('pied-texte', `© ${new Date().getFullYear()} ${livre.auteur} · ${nomSite()}`);
+
+    document.getElementById('nav-principale').setAttribute('aria-label', t('navPrincipale'));
     document.getElementById('select-langue').value = code;
-
-    const accueil = document.getElementById('lien-accueil');
-    accueil.textContent = nomSite();
-    accueil.href = lien();
-
-    const sujet = traduire(config.sujet).texte;
-    document.getElementById('pied-texte').textContent =
-      `© ${new Date().getFullYear()} ${nomSite()}${sujet ? ' — ' + sujet : ''}`;
+    document.getElementById('lien-accueil').href = lien();
+    document.getElementById('nav-livre').href = lien();
+    document.getElementById('nav-chapitres').href = lien('chapitres');
+    document.getElementById('nav-boutique').href = lien('boutique');
+    document.getElementById('lien-mentions').href = lien('mentions');
   }
 
   // ---------- Données ----------
 
-  async function chargerChapitres(slug) {
+  // Fichier par langue, avec repli sur la langue par défaut
+  async function chargerTraduit(chemin) {
     try {
-      return { donnees: await charger(`data/textes/${slug}/${langue}.json`), repli: false };
+      return { donnees: await charger(`${chemin}/${langue}.json`), repli: false };
     } catch (e) {
       if (langue === config.langueParDefaut) throw e;
-      return { donnees: await charger(`data/textes/${slug}/${config.langueParDefaut}.json`), repli: true };
+      return { donnees: await charger(`${chemin}/${config.langueParDefaut}.json`), repli: true };
     }
   }
+
+  const premierGratuit = () => livre.chapitres.find(c => c.gratuit);
+
+  // ---------- Composants ----------
+
+  function listeChapitres() {
+    return el('ol', { class: 'liste-chapitres' },
+      livre.chapitres.map(c => el('li', {},
+        el('a', { href: lien('chapitre', c.numero) },
+          el('span', { class: 'num-chap' }, String(c.numero).padStart(2, '0')),
+          elTrad('span', { class: 'titre-chap' }, c.titre),
+          el('span', { class: 'infos-chap' },
+            el('span', { class: 'badge' }, c.gratuit ? t('gratuit') : t('extrait')),
+            !c.gratuit && el('span', { class: 'prix' }, formatPrix(c.prix)))
+        )))
+    );
+  }
+
+  function offreComplete(niveau) {
+    return el('div', { class: 'offre' },
+      el('div', {},
+        el(niveau, {}, t('packTitre')),
+        el('p', {}, t('packTexte')),
+        el('p', {}, t('formats', { formats: config.formats }))
+      ),
+      el('div', { class: 'offre-achat' },
+        el('span', { class: 'prix' }, formatPrix(livre.pack.prix)),
+        boutonAchat(livre.pack.lienAchat, livre.pack.prix)
+      )
+    );
+  }
+
+  const mentionPaiement = () => el('p', { class: 'mention-paiement' }, icone(ICONE_CADENAS), t('paiementSecurise'));
 
   // ---------- Vues ----------
 
   function vueAccueil() {
-    document.title = nomSite();
+    document.title = `${titreLivre()} — ${nomSite()}`;
+    const pres = traduire(livre.presentation);
+    const gratuit = premierGratuit();
 
-    const statut = el('p', { class: 'vide', role: 'status' });
-    const cartes = textes.map(tx => {
-      const li = el('li', {}, el('article', { class: 'carte' },
-        el('h3', {}, elTrad('a', { href: lien('texte', tx.slug) }, tx.titre)),
-        elTrad('p', {}, tx.resume),
-        el('p', { class: 'meta' }, t('nbChapitres', { n: tx.chapitres }))
-      ));
-      li.dataset.recherche = normaliser(traduire(tx.titre).texte);
-      return li;
-    });
-
-    const champ = el('input', {
-      type: 'search', id: 'recherche', autocomplete: 'off',
-      oninput: () => {
-        const q = normaliser(champ.value.trim());
-        let visibles = 0;
-        for (const c of cartes) {
-          c.hidden = !c.dataset.recherche.includes(q);
-          if (!c.hidden) visibles++;
-        }
-        statut.textContent = visibles ? '' : t('aucunResultat');
-      }
-    });
-
-    const sujet = traduire(config.sujet).texte;
     return el('div', {},
-      titrePage(nomSite()),
-      sujet && el('p', { class: 'sujet' }, sujet),
-      el('div', { class: 'recherche', role: 'search' },
-        el('label', { for: 'recherche' }, t('rechercher')),
-        champ
+      el('section', { class: 'hero' },
+        el('img', { class: 'couverture', src: livre.couverture, alt: titreLivre(), width: 600, height: 900 }),
+        el('div', {},
+          el('p', { class: 'surtitre' }, t('ebook')),
+          elTrad('h1', { id: 'titre-page', tabindex: '-1' }, livre.titre),
+          el('p', { class: 'auteur' }, t('par', { auteur: livre.auteur })),
+          el('hr', { class: 'filet-orne' }),
+          elTrad('p', { class: 'accroche' }, livre.accroche),
+          el('div', { class: 'presentation', ...attrsLangue(pres.langue) }, (pres.texte || []).map(p => el('p', {}, p))),
+          el('div', { class: 'boutons' },
+            gratuit && el('a', { class: 'bouton', href: lien('chapitre', gratuit.numero) },
+              t('lireGratuit', { n: gratuit.numero }), fleche('→')),
+            el('a', { class: 'bouton secondaire', href: lien('boutique') }, t('voirBoutique'))
+          )
+        )
       ),
-      el('h2', {}, t('textes')),
-      el('ul', { class: 'liste-textes' }, cartes),
-      statut
+      el('section', { class: 'section', 'aria-labelledby': 'titre-sommaire' },
+        el('h2', { id: 'titre-sommaire' }, t('sommaire')),
+        listeChapitres()
+      ),
+      el('section', { class: 'section' }, offreComplete('h2'))
     );
   }
 
-  async function vueSommaire(slug) {
-    const tx = textes.find(x => x.slug === slug);
-    if (!tx) return vueIntrouvable();
-    const { donnees, repli } = await chargerChapitres(slug);
-    document.title = `${traduire(tx.titre).texte} — ${nomSite()}`;
-
-    const premier = donnees.chapitres[0];
-    return el('div', {},
-      el('a', { class: 'retour', href: lien() }, fleche('←'), ' ', t('retourAccueil')),
-      elTrad('h1', { id: 'titre-page', tabindex: '-1' }, tx.titre),
-      elTrad('p', { class: 'resume' }, tx.resume),
-      repli && bandeau(),
-      premier && el('p', {}, el('a', { class: 'bouton', href: lien('texte', slug, 'chapitre', premier.numero) },
-        t('lire'), ' ', fleche('→'))),
-      el('h2', {}, t('sommaire')),
-      el('ol', { class: 'sommaire', ...attrsRepli(repli) },
-        donnees.chapitres.map(c => el('li', {},
-          el('a', { href: lien('texte', slug, 'chapitre', c.numero) }, c.titre))))
+  function vueChapitres() {
+    document.title = `${t('sommaire')} — ${titreLivre()}`;
+    return el('div', { class: 'lecture' },
+      elTrad('p', { class: 'surtitre' }, livre.titre),
+      titrePage({}, t('sommaire')),
+      el('hr', { class: 'filet-orne' }),
+      listeChapitres(),
+      el('div', { class: 'section' }, offreComplete('h2'))
     );
   }
 
-  async function vueChapitre(slug, numero) {
-    const tx = textes.find(x => x.slug === slug);
-    if (!tx) return vueIntrouvable();
-    const { donnees, repli } = await chargerChapitres(slug);
-    const liste = donnees.chapitres;
-    const i = liste.findIndex(c => c.numero === numero);
+  async function vueChapitre(numero) {
+    const i = livre.chapitres.findIndex(c => c.numero === numero);
     if (i < 0) return vueIntrouvable();
-
-    const chap = liste[i];
-    const prec = liste[i - 1];
-    const suiv = liste[i + 1];
-    document.title = `${chap.titre} — ${traduire(tx.titre).texte}`;
+    const chap = livre.chapitres[i];
+    const prec = livre.chapitres[i - 1];
+    const suiv = livre.chapitres[i + 1];
+    const { donnees, repli } = await chargerTraduit(`data/chapitres/${chap.numero}`);
+    const titre = traduire(chap.titre);
+    document.title = `${titre.texte} — ${titreLivre()}`;
 
     return el('div', {},
-      repli && bandeau(),
-      el('article', { class: 'lecture', ...attrsRepli(repli) },
-        el('p', { class: 'surtitre' }, elTrad('a', { href: lien('texte', slug) }, tx.titre), ` · ${i + 1} / ${liste.length}`),
-        titrePage(chap.titre),
-        chap.contenu.map(p => el('p', {}, p))
-      ),
-      el('div', { class: 'nav-chapitres' },
-        prec ? el('a', { class: 'bouton', rel: 'prev', href: lien('texte', slug, 'chapitre', prec.numero) },
-          fleche('←'), t('precedent')) : el('span'),
-        el('a', { class: 'bouton secondaire', href: lien('texte', slug) }, t('retourSommaire')),
-        suiv ? el('a', { class: 'bouton', rel: 'next', href: lien('texte', slug, 'chapitre', suiv.numero) },
-          t('suivant'), fleche('→')) : el('span')
+      el('article', { class: 'lecture' },
+        el('p', { class: 'surtitre' }, t('chapitreN', { n: chap.numero }), ` · ${i + 1} / ${livre.chapitres.length}`),
+        titrePage(attrsLangue(titre.langue), titre.texte),
+        el('hr', { class: 'filet-orne' }),
+        repli && bandeau(),
+        el('div', {
+          class: chap.gratuit ? 'texte-livre' : 'texte-livre coupe',
+          ...(repli ? attrsLangue(config.langueParDefaut) : {})
+        }, donnees.contenu.map(p => el('p', {}, p))),
+
+        !chap.gratuit && el('aside', { class: 'achat-chapitre', 'aria-labelledby': 'titre-achat' },
+          el('p', { id: 'titre-achat' }, t('suiteEbook')),
+          el('div', { class: 'boutons' },
+            boutonAchat(chap.lienAchat, chap.prix),
+            el('a', { class: 'bouton secondaire', href: lien('boutique') },
+              `${t('packTitre')} · ${formatPrix(livre.pack.prix)}`)
+          ),
+          el('p', { class: 'details' }, t('formats', { formats: config.formats }))
+        ),
+
+        el('div', { class: 'nav-chapitres' },
+          prec ? el('a', { class: 'bouton secondaire', rel: 'prev', href: lien('chapitre', prec.numero) },
+            fleche('←'), t('precedent')) : el('span'),
+          el('a', { class: 'bouton secondaire', href: lien('chapitres') }, t('retourSommaire')),
+          suiv ? el('a', { class: 'bouton secondaire', rel: 'next', href: lien('chapitre', suiv.numero) },
+            t('suivant'), fleche('→')) : el('span')
+        )
       )
+    );
+  }
+
+  function vueBoutique() {
+    document.title = `${t('boutique')} — ${nomSite()}`;
+    return el('div', {},
+      elTrad('p', { class: 'surtitre' }, livre.titre),
+      titrePage({}, t('boutique')),
+      el('p', { class: 'intro' }, t('boutiqueIntro')),
+      el('div', { class: 'section' }, offreComplete('h2')),
+      el('h2', {}, t('chapitres')),
+      el('ul', { class: 'grille' },
+        livre.chapitres.map(c => el('li', {},
+          el('article', { class: 'fiche' },
+            el('p', { class: 'surtitre' }, t('chapitreN', { n: c.numero })),
+            elTrad('h3', {}, c.titre),
+            el('p', {}, c.gratuit
+              ? el('span', { class: 'badge' }, t('gratuit'))
+              : el('span', { class: 'prix' }, formatPrix(c.prix))),
+            el('div', { class: 'bas' },
+              c.gratuit
+                ? el('a', { class: 'bouton', href: lien('chapitre', c.numero) }, t('lire'))
+                : [boutonAchat(c.lienAchat, c.prix),
+                   el('a', { href: lien('chapitre', c.numero) }, t('lireExtrait'))]
+            )
+          )))
+      ),
+      mentionPaiement()
+    );
+  }
+
+  async function vueMentions() {
+    document.title = `${t('mentions')} — ${nomSite()}`;
+    const { donnees, repli } = await chargerTraduit('data/mentions');
+    return el('div', { class: 'mentions' },
+      titrePage({}, t('mentions')),
+      repli && bandeau(),
+      el('div', repli ? attrsLangue(config.langueParDefaut) : {},
+        donnees.sections.map(s => [el('h2', {}, s.titre), s.contenu.map(p => el('p', {}, p))]))
     );
   }
 
   function vueIntrouvable() {
     document.title = `${t('introuvable')} — ${nomSite()}`;
     return el('div', {},
-      titrePage(t('introuvable')),
+      titrePage({}, t('introuvable')),
       el('p', {}, el('a', { href: lien() }, t('retourAccueil')))
     );
   }
 
   function vueErreur() {
     return el('div', {},
-      titrePage(t('erreur')),
+      titrePage({}, t('erreur')),
       el('p', {}, el('a', { href: lien() }, t('retourAccueil')))
     );
   }
 
   // ---------- Routeur ----------
-  // #/fr  ·  #/fr/texte/slug  ·  #/fr/texte/slug/chapitre/2
+  // #/fr · #/fr/chapitres · #/fr/chapitre/2 · #/fr/boutique · #/fr/mentions
 
   async function router() {
     const monJeton = ++jeton;
@@ -246,23 +360,52 @@
     }
 
     let vue;
+    let rubrique = null;
     try {
       await changerLangue(code);
-      if (reste.length === 0) vue = vueAccueil();
-      else if (reste[0] === 'texte' && reste.length === 2) vue = await vueSommaire(reste[1]);
-      else if (reste[0] === 'texte' && reste[2] === 'chapitre' && reste.length === 4) vue = await vueChapitre(reste[1], Number(reste[3]));
+      const [page, param] = reste;
+      if (reste.length === 0) { vue = vueAccueil(); rubrique = 'livre'; }
+      else if (page === 'chapitres' && reste.length === 1) { vue = vueChapitres(); rubrique = 'chapitres'; }
+      else if (page === 'chapitre' && reste.length === 2) { vue = await vueChapitre(Number(param)); rubrique = 'chapitres'; }
+      else if (page === 'boutique' && reste.length === 1) { vue = vueBoutique(); rubrique = 'boutique'; }
+      else if (page === 'mentions' && reste.length === 1) vue = await vueMentions();
       else vue = vueIntrouvable();
+      vueCourante = page === 'chapitre' ? 'lecture' : null;
     } catch (e) {
       console.error(e);
       vue = vueErreur();
+      vueCourante = null;
     }
     if (monJeton !== jeton) return;
 
+    for (const r of ['livre', 'chapitres', 'boutique']) {
+      const a = document.getElementById('nav-' + r);
+      if (r === rubrique) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    }
+
     app.replaceChildren(vue);
     window.scrollTo(0, 0);
-    if (!premierRendu) document.getElementById('titre-page')?.focus();
+    majProgression();
+    activerPaiement();
+    if (!premierRendu) document.getElementById('titre-page')?.focus({ preventScroll: true });
     premierRendu = false;
   }
+
+  // ---------- Barre de progression de lecture ----------
+
+  function majProgression() {
+    if (vueCourante !== 'lecture') { barre.style.width = '0'; return; }
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    barre.style.width = max > 0 ? `${Math.min(100, (window.scrollY / max) * 100)}%` : '100%';
+  }
+
+  let attenteProgression = false;
+  window.addEventListener('scroll', () => {
+    if (attenteProgression) return;
+    attenteProgression = true;
+    requestAnimationFrame(() => { majProgression(); attenteProgression = false; });
+  }, { passive: true });
 
   // ---------- Taille du texte ----------
 
@@ -280,7 +423,7 @@
   async function demarrer() {
     try {
       config = await charger('config.json');
-      textes = await charger('data/textes.json');
+      livre = await charger('data/livre.json');
     } catch (e) {
       console.error(e);
       app.textContent = 'Erreur de chargement. Lancez le site via un serveur web (voir README.md).';
@@ -306,6 +449,8 @@
       document.getElementById('contenu').focus();
     });
 
+    // lemon.js est chargé en différé : on branche les boutons déjà affichés quand il arrive
+    window.addEventListener('load', activerPaiement);
     window.addEventListener('hashchange', router);
     router();
   }

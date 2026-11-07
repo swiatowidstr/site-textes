@@ -1,0 +1,41 @@
+{
+  "sections": [
+    {
+      "titre": "Éditeur du site",
+      "contenu": [
+        "[NOM ET PRÉNOM ou RAISON SOCIALE] — [STATUT : auteur indépendant, micro-entreprise, société…]",
+        "[ADRESSE POSTALE]",
+        "Contact : [ADRESSE E-MAIL]",
+        "[SIRET, si applicable]",
+        "Directeur de la publication : [NOM]"
+      ]
+    },
+    {
+      "titre": "Hébergement",
+      "contenu": [
+        "GitHub Pages — GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis."
+      ]
+    },
+    {
+      "titre": "Vente des ebooks",
+      "contenu": [
+        "Les ebooks sont vendus par l'intermédiaire de Lemon Squeezy, qui agit en tant que revendeur officiel (Merchant of Record) : il encaisse le paiement, émet la facture et collecte la TVA applicable dans le pays de l'acheteur. Les conditions de vente de Lemon Squeezy s'appliquent à chaque commande.",
+        "Les ebooks sont des contenus numériques fournis immédiatement après le paiement. Conformément à l'article L221-28 du Code de la consommation, l'acheteur accepte que la livraison commence avant la fin du délai de rétractation et renonce à son droit de rétractation.",
+        "[À FAIRE VALIDER : conditions de remboursement éventuelles, contact du service client.]"
+      ]
+    },
+    {
+      "titre": "Données personnelles",
+      "contenu": [
+        "Ce site ne crée aucun compte et ne dépose aucun cookie de mesure d'audience. Seuls la langue et la taille du texte choisies sont mémorisées dans votre navigateur.",
+        "Lors d'un achat, les données de paiement sont traitées par Lemon Squeezy selon sa propre politique de confidentialité. [À COMPLÉTER : vos coordonnées pour exercer vos droits RGPD.]"
+      ]
+    },
+    {
+      "titre": "Propriété intellectuelle",
+      "contenu": [
+        "Les textes, la couverture et les ebooks sont protégés par le droit d'auteur. Toute reproduction ou diffusion sans autorisation est interdite. © [AUTEUR]."
+      ]
+    }
+  ]
+}
