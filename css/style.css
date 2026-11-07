@@ -1,0 +1,275 @@
+/* ---------- Palette ---------- */
+:root {
+  --marine: #1B2A41;
+  --marron: #4A3426;
+  --bronze: #A97142;        /* bordures et éléments décoratifs (contraste 3:1 min) */
+  --bronze-texte: #8A5A2E;  /* bronze assombri pour le texte : contraste AA sur fond crème */
+  --dore: #C9A227;          /* accents uniquement, jamais du texte sur fond clair */
+  --creme: #F7F1E3;
+  --carte: #FFFBF2;
+
+  --fond: var(--creme);
+  --fond-carte: var(--carte);
+  --texte: var(--marron);
+  --titres: var(--marine);
+  --lien: var(--bronze-texte);
+  --bordure: var(--bronze);
+  --accent: var(--dore);
+  --bouton-fond: var(--bronze-texte);
+  --bouton-texte: #FFFFFF;
+  --entete-fond: var(--marine);
+  --entete-texte: var(--creme);
+  --focus: var(--marine);
+
+  --police: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial,
+    "Noto Sans Arabic", "Noto Sans Hebrew", "Noto Sans Devanagari", "Nirmala UI",
+    "Microsoft YaHei", "PingFang SC", "Hiragino Sans", "Yu Gothic", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --police-titres: Georgia, "Noto Serif", "Times New Roman", serif;
+  --echelle: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #16223A;
+    --fond-carte: #1F2E4A;
+    --texte: #F7F1E3;
+    --titres: #F7F1E3;
+    --lien: var(--dore);
+    --bordure: #A97142;
+    --bouton-fond: var(--dore);
+    --bouton-texte: var(--marine);
+    --entete-fond: #0F1829;
+    --focus: var(--dore);
+  }
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: calc(112.5% * var(--echelle)); /* 18 px par défaut */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--police);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+main { flex: 1; outline: none; }
+
+h1, h2, h3 {
+  color: var(--titres);
+  font-family: var(--police-titres);
+  line-height: 1.25;
+  margin-block: 1.5rem 0.75rem;
+}
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h1:focus { outline: none; }
+
+a { color: var(--lien); text-underline-offset: 0.2em; }
+a:hover { text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.conteneur {
+  width: 100%;
+  max-width: 60rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Lien d'évitement ---------- */
+.skip {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -10rem;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  background: var(--fond-carte);
+  color: var(--titres);
+  font-weight: 700;
+}
+.skip:focus { inset-block-start: 1rem; }
+
+/* ---------- En-tête ---------- */
+.entete {
+  background: var(--entete-fond);
+  color: var(--entete-texte);
+  border-block-end: 4px solid var(--dore);
+  --focus: var(--dore);
+}
+.entete-interne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-block: 0.75rem;
+}
+.logo {
+  color: var(--entete-texte);
+  font-family: var(--police-titres);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.logo:hover { color: var(--dore); }
+
+.outils {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+.taille { display: flex; gap: 0.25rem; }
+.taille button,
+.choix-langue select {
+  min-height: 2.5rem;
+  font: inherit;
+  color: var(--entete-texte);
+  background: transparent;
+  border: 2px solid var(--bronze);
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.taille button { min-width: 2.75rem; font-weight: 700; }
+.taille button:hover:not(:disabled) { border-color: var(--dore); }
+.taille button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.choix-langue { display: flex; align-items: center; gap: 0.5rem; }
+.choix-langue select { padding-inline: 0.5rem; max-width: 12rem; }
+.choix-langue option { color: #1B2A41; background: #FFFBF2; }
+
+/* ---------- Pied de page ---------- */
+.pied {
+  margin-block-start: 3rem;
+  background: var(--entete-fond);
+  color: var(--entete-texte);
+  border-block-start: 4px solid var(--dore);
+  font-size: 0.9rem;
+}
+.pied p { margin-block: 1rem; }
+
+/* ---------- Accueil ---------- */
+.sujet { font-size: 1.15rem; margin-block-start: 0; }
+
+.recherche { margin-block: 1.5rem; }
+.recherche label { display: block; font-weight: 700; margin-block-end: 0.35rem; }
+.recherche input {
+  width: 100%;
+  max-width: 30rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  color: var(--texte);
+  background: var(--fond-carte);
+  border: 2px solid var(--bordure);
+  border-radius: 0.4rem;
+}
+
+.liste-textes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1rem;
+}
+.carte {
+  height: 100%;
+  padding: 1.25rem;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure);
+  border-block-start: 4px solid var(--dore);
+  border-radius: 0.5rem;
+}
+.carte h3 { margin-block-start: 0; }
+.carte p { margin-block: 0.5rem; }
+.meta { font-size: 0.9rem; font-style: italic; }
+
+/* ---------- Bandeau « non traduit » ---------- */
+.bandeau {
+  margin-block: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--fond-carte);
+  border: 1px solid var(--bordure);
+  border-inline-start: 6px solid var(--dore);
+  border-radius: 0.4rem;
+}
+
+/* ---------- Sommaire ---------- */
+.retour { display: inline-block; margin-block-start: 1.25rem; }
+.resume { font-size: 1.1rem; }
+.sommaire { padding-inline-start: 1.5rem; }
+.sommaire li { margin-block: 0.5rem; }
+.sommaire a { display: inline-block; padding-block: 0.25rem; }
+
+/* ---------- Lecture ---------- */
+.lecture { max-width: 70ch; }
+.lecture p { margin-block: 0 1.1rem; }
+.surtitre { margin-block: 1.5rem 0 !important; font-size: 0.95rem; }
+.lecture h1 {
+  margin-block-start: 0.25rem;
+  padding-block-end: 0.5rem;
+  border-block-end: 2px solid var(--dore);
+}
+
+/* ---------- Boutons ---------- */
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--bouton-fond);
+  color: var(--bouton-texte);
+  border: 2px solid var(--bouton-fond);
+  border-radius: 0.4rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.bouton:hover { border-color: var(--accent); }
+.bouton.secondaire { background: transparent; color: var(--lien); border-color: var(--bordure); }
+
+.nav-chapitres {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: 70ch;
+  margin-block-start: 2rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 1px solid var(--bordure);
+}
+
+/* Les flèches suivent le sens de lecture */
+.fleche { display: inline-block; }
+[dir="rtl"] .fleche { transform: scaleX(-1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}

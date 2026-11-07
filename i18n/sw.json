@@ -1,0 +1,22 @@
+{
+  "skip": "Ruka hadi maudhui",
+  "langue": "Lugha",
+  "accueil": "Nyumbani",
+  "textes": "Maandishi",
+  "rechercher": "Tafuta maandishi",
+  "aucunResultat": "Hakuna maandishi yaliyopatikana.",
+  "nbChapitres": "Sura: {n}",
+  "sommaire": "Yaliyomo",
+  "lire": "Soma",
+  "precedent": "Sura iliyotangulia",
+  "suivant": "Sura inayofuata",
+  "retourSommaire": "Rudi kwenye yaliyomo",
+  "nonTraduit": "Maudhui haya bado hayajatafsiriwa kwa lugha yako.",
+  "tailleTexte": "Ukubwa wa maandishi",
+  "reduire": "Punguza maandishi",
+  "agrandir": "Ongeza maandishi",
+  "introuvable": "Ukurasa haukupatikana",
+  "retourAccueil": "Rudi nyumbani",
+  "chargement": "Inapakia…",
+  "erreur": "Imeshindwa kupakia maudhui."
+}

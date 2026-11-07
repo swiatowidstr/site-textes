@@ -1,0 +1,22 @@
+{
+  "skip": "본문으로 건너뛰기",
+  "langue": "언어",
+  "accueil": "홈",
+  "textes": "텍스트",
+  "rechercher": "텍스트 검색",
+  "aucunResultat": "텍스트를 찾을 수 없습니다.",
+  "nbChapitres": "장: {n}",
+  "sommaire": "목차",
+  "lire": "읽기",
+  "precedent": "이전 장",
+  "suivant": "다음 장",
+  "retourSommaire": "목차로 돌아가기",
+  "nonTraduit": "이 콘텐츠는 아직 사용자의 언어로 번역되지 않았습니다.",
+  "tailleTexte": "글자 크기",
+  "reduire": "글자 작게",
+  "agrandir": "글자 크게",
+  "introuvable": "페이지를 찾을 수 없습니다",
+  "retourAccueil": "홈으로 돌아가기",
+  "chargement": "불러오는 중…",
+  "erreur": "콘텐츠를 불러올 수 없습니다."
+}

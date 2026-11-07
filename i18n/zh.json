@@ -1,0 +1,22 @@
+{
+  "skip": "跳到内容",
+  "langue": "语言",
+  "accueil": "首页",
+  "textes": "文本",
+  "rechercher": "搜索文本",
+  "aucunResultat": "未找到文本。",
+  "nbChapitres": "章节：{n}",
+  "sommaire": "目录",
+  "lire": "阅读",
+  "precedent": "上一章",
+  "suivant": "下一章",
+  "retourSommaire": "返回目录",
+  "nonTraduit": "此内容尚未翻译成您的语言。",
+  "tailleTexte": "文字大小",
+  "reduire": "缩小文字",
+  "agrandir": "放大文字",
+  "introuvable": "页面未找到",
+  "retourAccueil": "返回首页",
+  "chargement": "加载中…",
+  "erreur": "无法加载内容。"
+}

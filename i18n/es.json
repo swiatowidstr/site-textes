@@ -1,0 +1,22 @@
+{
+  "skip": "Saltar al contenido",
+  "langue": "Idioma",
+  "accueil": "Inicio",
+  "textes": "Los textos",
+  "rechercher": "Buscar un texto",
+  "aucunResultat": "No se encontró ningún texto.",
+  "nbChapitres": "Capítulos: {n}",
+  "sommaire": "Índice",
+  "lire": "Leer",
+  "precedent": "Capítulo anterior",
+  "suivant": "Capítulo siguiente",
+  "retourSommaire": "Volver al índice",
+  "nonTraduit": "Este contenido aún no está traducido a tu idioma.",
+  "tailleTexte": "Tamaño del texto",
+  "reduire": "Reducir el texto",
+  "agrandir": "Ampliar el texto",
+  "introuvable": "Página no encontrada",
+  "retourAccueil": "Volver al inicio",
+  "chargement": "Cargando…",
+  "erreur": "No se pudo cargar el contenido."
+}

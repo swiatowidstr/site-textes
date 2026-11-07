@@ -1,0 +1,107 @@
+{
+  "nom": "[NOM DU SITE]",
+  "sujet": "[SUJET]",
+  "langueParDefaut": "fr",
+  "langues": [
+    {
+      "code": "fr",
+      "nom": "Français",
+      "dir": "ltr"
+    },
+    {
+      "code": "en",
+      "nom": "English",
+      "dir": "ltr"
+    },
+    {
+      "code": "es",
+      "nom": "Español",
+      "dir": "ltr"
+    },
+    {
+      "code": "de",
+      "nom": "Deutsch",
+      "dir": "ltr"
+    },
+    {
+      "code": "it",
+      "nom": "Italiano",
+      "dir": "ltr"
+    },
+    {
+      "code": "pt",
+      "nom": "Português",
+      "dir": "ltr"
+    },
+    {
+      "code": "nl",
+      "nom": "Nederlands",
+      "dir": "ltr"
+    },
+    {
+      "code": "pl",
+      "nom": "Polski",
+      "dir": "ltr"
+    },
+    {
+      "code": "ru",
+      "nom": "Русский",
+      "dir": "ltr"
+    },
+    {
+      "code": "uk",
+      "nom": "Українська",
+      "dir": "ltr"
+    },
+    {
+      "code": "tr",
+      "nom": "Türkçe",
+      "dir": "ltr"
+    },
+    {
+      "code": "ar",
+      "nom": "العربية",
+      "dir": "rtl"
+    },
+    {
+      "code": "he",
+      "nom": "עברית",
+      "dir": "rtl"
+    },
+    {
+      "code": "fa",
+      "nom": "فارسی",
+      "dir": "rtl"
+    },
+    {
+      "code": "hi",
+      "nom": "हिन्दी",
+      "dir": "ltr"
+    },
+    {
+      "code": "zh",
+      "nom": "中文",
+      "dir": "ltr"
+    },
+    {
+      "code": "ja",
+      "nom": "日本語",
+      "dir": "ltr"
+    },
+    {
+      "code": "ko",
+      "nom": "한국어",
+      "dir": "ltr"
+    },
+    {
+      "code": "id",
+      "nom": "Bahasa Indonesia",
+      "dir": "ltr"
+    },
+    {
+      "code": "sw",
+      "nom": "Kiswahili",
+      "dir": "ltr"
+    }
+  ]
+}

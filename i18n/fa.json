@@ -1,0 +1,22 @@
+{
+  "skip": "رفتن به محتوا",
+  "langue": "زبان",
+  "accueil": "خانه",
+  "textes": "متن‌ها",
+  "rechercher": "جستجوی متن",
+  "aucunResultat": "هیچ متنی یافت نشد.",
+  "nbChapitres": "فصل‌ها: {n}",
+  "sommaire": "فهرست",
+  "lire": "خواندن",
+  "precedent": "فصل قبلی",
+  "suivant": "فصل بعدی",
+  "retourSommaire": "بازگشت به فهرست",
+  "nonTraduit": "این محتوا هنوز به زبان شما ترجمه نشده است.",
+  "tailleTexte": "اندازهٔ متن",
+  "reduire": "کوچک کردن متن",
+  "agrandir": "بزرگ کردن متن",
+  "introuvable": "صفحه پیدا نشد",
+  "retourAccueil": "بازگشت به خانه",
+  "chargement": "در حال بارگذاری…",
+  "erreur": "بارگذاری محتوا ممکن نشد."
+}

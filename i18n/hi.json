@@ -1,0 +1,22 @@
+{
+  "skip": "सामग्री पर जाएँ",
+  "langue": "भाषा",
+  "accueil": "मुखपृष्ठ",
+  "textes": "पाठ",
+  "rechercher": "पाठ खोजें",
+  "aucunResultat": "कोई पाठ नहीं मिला।",
+  "nbChapitres": "अध्याय: {n}",
+  "sommaire": "विषय-सूची",
+  "lire": "पढ़ें",
+  "precedent": "पिछला अध्याय",
+  "suivant": "अगला अध्याय",
+  "retourSommaire": "विषय-सूची पर लौटें",
+  "nonTraduit": "यह सामग्री अभी आपकी भाषा में अनुवादित नहीं है।",
+  "tailleTexte": "पाठ का आकार",
+  "reduire": "पाठ छोटा करें",
+  "agrandir": "पाठ बड़ा करें",
+  "introuvable": "पृष्ठ नहीं मिला",
+  "retourAccueil": "मुखपृष्ठ पर लौटें",
+  "chargement": "लोड हो रहा है…",
+  "erreur": "सामग्री लोड नहीं हो सकी।"
+}

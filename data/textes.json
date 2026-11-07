@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "exemple-1",
+    "chapitres": 3,
+    "titre": {
+      "fr": "Texte exemple 1",
+      "en": "Sample text 1",
+      "ar": "نص تجريبي 1"
+    },
+    "resume": {
+      "fr": "Résumé du texte exemple 1. Remplacez-le par une courte présentation.",
+      "en": "Summary of sample text 1. Replace it with a short introduction.",
+      "ar": "ملخص النص التجريبي 1. استبدله بتقديم قصير."
+    }
+  },
+  {
+    "slug": "exemple-2",
+    "chapitres": 3,
+    "titre": {
+      "fr": "Texte exemple 2",
+      "en": "Sample text 2",
+      "ar": "نص تجريبي 2"
+    },
+    "resume": {
+      "fr": "Résumé du texte exemple 2. Remplacez-le par une courte présentation.",
+      "en": "Summary of sample text 2. Replace it with a short introduction.",
+      "ar": "ملخص النص التجريبي 2. استبدله بتقديم قصير."
+    }
+  }
+]

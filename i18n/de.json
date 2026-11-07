@@ -1,0 +1,22 @@
+{
+  "skip": "Zum Inhalt springen",
+  "langue": "Sprache",
+  "accueil": "Startseite",
+  "textes": "Die Texte",
+  "rechercher": "Text suchen",
+  "aucunResultat": "Kein Text gefunden.",
+  "nbChapitres": "Kapitel: {n}",
+  "sommaire": "Inhaltsverzeichnis",
+  "lire": "Lesen",
+  "precedent": "Vorheriges Kapitel",
+  "suivant": "Nächstes Kapitel",
+  "retourSommaire": "Zurück zum Inhaltsverzeichnis",
+  "nonTraduit": "Dieser Inhalt ist noch nicht in Ihre Sprache übersetzt.",
+  "tailleTexte": "Textgröße",
+  "reduire": "Text verkleinern",
+  "agrandir": "Text vergrößern",
+  "introuvable": "Seite nicht gefunden",
+  "retourAccueil": "Zurück zur Startseite",
+  "chargement": "Wird geladen…",
+  "erreur": "Inhalt konnte nicht geladen werden."
+}

@@ -1,0 +1,22 @@
+{
+  "skip": "انتقل إلى المحتوى",
+  "langue": "اللغة",
+  "accueil": "الرئيسية",
+  "textes": "النصوص",
+  "rechercher": "ابحث عن نص",
+  "aucunResultat": "لم يتم العثور على أي نص.",
+  "nbChapitres": "الفصول: {n}",
+  "sommaire": "الفهرس",
+  "lire": "اقرأ",
+  "precedent": "الفصل السابق",
+  "suivant": "الفصل التالي",
+  "retourSommaire": "العودة إلى الفهرس",
+  "nonTraduit": "هذا المحتوى غير مترجم إلى لغتك بعد.",
+  "tailleTexte": "حجم النص",
+  "reduire": "تصغير النص",
+  "agrandir": "تكبير النص",
+  "introuvable": "الصفحة غير موجودة",
+  "retourAccueil": "العودة إلى الرئيسية",
+  "chargement": "جارٍ التحميل…",
+  "erreur": "تعذّر تحميل المحتوى."
+}

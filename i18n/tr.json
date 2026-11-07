@@ -1,0 +1,22 @@
+{
+  "skip": "İçeriğe geç",
+  "langue": "Dil",
+  "accueil": "Ana sayfa",
+  "textes": "Metinler",
+  "rechercher": "Metin ara",
+  "aucunResultat": "Metin bulunamadı.",
+  "nbChapitres": "Bölümler: {n}",
+  "sommaire": "İçindekiler",
+  "lire": "Oku",
+  "precedent": "Önceki bölüm",
+  "suivant": "Sonraki bölüm",
+  "retourSommaire": "İçindekilere dön",
+  "nonTraduit": "Bu içerik henüz dilinize çevrilmedi.",
+  "tailleTexte": "Yazı boyutu",
+  "reduire": "Yazıyı küçült",
+  "agrandir": "Yazıyı büyüt",
+  "introuvable": "Sayfa bulunamadı",
+  "retourAccueil": "Ana sayfaya dön",
+  "chargement": "Yükleniyor…",
+  "erreur": "İçerik yüklenemedi."
+}

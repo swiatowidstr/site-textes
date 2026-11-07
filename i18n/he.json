@@ -1,0 +1,22 @@
+{
+  "skip": "דלג לתוכן",
+  "langue": "שפה",
+  "accueil": "דף הבית",
+  "textes": "הטקסטים",
+  "rechercher": "חיפוש טקסט",
+  "aucunResultat": "לא נמצא טקסט.",
+  "nbChapitres": "פרקים: {n}",
+  "sommaire": "תוכן העניינים",
+  "lire": "קרא",
+  "precedent": "הפרק הקודם",
+  "suivant": "הפרק הבא",
+  "retourSommaire": "חזרה לתוכן העניינים",
+  "nonTraduit": "תוכן זה עדיין לא תורגם לשפתך.",
+  "tailleTexte": "גודל הטקסט",
+  "reduire": "הקטנת הטקסט",
+  "agrandir": "הגדלת הטקסט",
+  "introuvable": "הדף לא נמצא",
+  "retourAccueil": "חזרה לדף הבית",
+  "chargement": "טוען…",
+  "erreur": "לא ניתן לטעון את התוכן."
+}

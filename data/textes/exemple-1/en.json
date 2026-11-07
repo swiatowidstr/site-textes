@@ -1,0 +1,28 @@
+{
+  "chapitres": [
+    {
+      "numero": 1,
+      "titre": "Chapter 1",
+      "contenu": [
+        "This is the first paragraph of chapter 1 of sample text 1. Replace it with the real content.",
+        "Second sample paragraph, to check line spacing and reading width."
+      ]
+    },
+    {
+      "numero": 2,
+      "titre": "Chapter 2",
+      "contenu": [
+        "This is the first paragraph of chapter 2 of sample text 1. Replace it with the real content.",
+        "Second sample paragraph, to check line spacing and reading width."
+      ]
+    },
+    {
+      "numero": 3,
+      "titre": "Chapter 3",
+      "contenu": [
+        "This is the first paragraph of chapter 3 of sample text 1. Replace it with the real content.",
+        "Second sample paragraph, to check line spacing and reading width."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "skip": "Aller au contenu",
+  "langue": "Langue",
+  "accueil": "Accueil",
+  "textes": "Les textes",
+  "rechercher": "Rechercher un texte",
+  "aucunResultat": "Aucun texte trouvé.",
+  "nbChapitres": "Chapitres : {n}",
+  "sommaire": "Sommaire",
+  "lire": "Lire",
+  "precedent": "Chapitre précédent",
+  "suivant": "Chapitre suivant",
+  "retourSommaire": "Retour au sommaire",
+  "nonTraduit": "Ce contenu n'est pas encore traduit dans votre langue.",
+  "tailleTexte": "Taille du texte",
+  "reduire": "Réduire le texte",
+  "agrandir": "Agrandir le texte",
+  "introuvable": "Page introuvable",
+  "retourAccueil": "Retour à l'accueil",
+  "chargement": "Chargement…",
+  "erreur": "Impossible de charger le contenu."
+}

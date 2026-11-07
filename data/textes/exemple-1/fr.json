@@ -1,0 +1,28 @@
+{
+  "chapitres": [
+    {
+      "numero": 1,
+      "titre": "Chapitre 1",
+      "contenu": [
+        "Ceci est le premier paragraphe du chapitre 1 du texte exemple 1. Remplacez-le par le vrai contenu.",
+        "Deuxième paragraphe d'exemple, pour vérifier l'interligne et la largeur de lecture."
+      ]
+    },
+    {
+      "numero": 2,
+      "titre": "Chapitre 2",
+      "contenu": [
+        "Ceci est le premier paragraphe du chapitre 2 du texte exemple 1. Remplacez-le par le vrai contenu.",
+        "Deuxième paragraphe d'exemple, pour vérifier l'interligne et la largeur de lecture."
+      ]
+    },
+    {
+      "numero": 3,
+      "titre": "Chapitre 3",
+      "contenu": [
+        "Ceci est le premier paragraphe du chapitre 3 du texte exemple 1. Remplacez-le par le vrai contenu.",
+        "Deuxième paragraphe d'exemple, pour vérifier l'interligne et la largeur de lecture."
+      ]
+    }
+  ]
+}

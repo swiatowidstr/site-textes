@@ -1,0 +1,22 @@
+{
+  "skip": "Naar de inhoud",
+  "langue": "Taal",
+  "accueil": "Home",
+  "textes": "De teksten",
+  "rechercher": "Een tekst zoeken",
+  "aucunResultat": "Geen tekst gevonden.",
+  "nbChapitres": "Hoofdstukken: {n}",
+  "sommaire": "Inhoudsopgave",
+  "lire": "Lezen",
+  "precedent": "Vorig hoofdstuk",
+  "suivant": "Volgend hoofdstuk",
+  "retourSommaire": "Terug naar de inhoudsopgave",
+  "nonTraduit": "Deze inhoud is nog niet vertaald in uw taal.",
+  "tailleTexte": "Tekstgrootte",
+  "reduire": "Tekst verkleinen",
+  "agrandir": "Tekst vergroten",
+  "introuvable": "Pagina niet gevonden",
+  "retourAccueil": "Terug naar home",
+  "chargement": "Laden…",
+  "erreur": "Kan de inhoud niet laden."
+}

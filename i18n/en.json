@@ -1,0 +1,22 @@
+{
+  "skip": "Skip to content",
+  "langue": "Language",
+  "accueil": "Home",
+  "textes": "Texts",
+  "rechercher": "Search for a text",
+  "aucunResultat": "No text found.",
+  "nbChapitres": "Chapters: {n}",
+  "sommaire": "Contents",
+  "lire": "Read",
+  "precedent": "Previous chapter",
+  "suivant": "Next chapter",
+  "retourSommaire": "Back to contents",
+  "nonTraduit": "This content is not yet translated into your language.",
+  "tailleTexte": "Text size",
+  "reduire": "Decrease text size",
+  "agrandir": "Increase text size",
+  "introuvable": "Page not found",
+  "retourAccueil": "Back to home",
+  "chargement": "Loading…",
+  "erreur": "Unable to load content."
+}
