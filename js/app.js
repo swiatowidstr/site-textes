@@ -75,6 +75,13 @@
     return el(tag, { ...attrs, ...attrsLangue(l) }, texte);
   }
 
+  // Marque un élément pour l'apparition au défilement ; i décale l'animation (effet en cascade)
+  function revele(noeud, i = 0) {
+    noeud.classList.add('reveal');
+    noeud.style.setProperty('--i', Math.min(i, 8));
+    return noeud;
+  }
+
   const lien = (...parties) => '#/' + [langue, ...parties].map(encodeURIComponent).join('/');
   const fleche = c => el('span', { class: 'fleche', 'aria-hidden': 'true' }, c);
   const titrePage = (attrs, ...enfants) => el('h1', { id: 'titre-page', tabindex: '-1', ...attrs }, ...enfants);
@@ -181,19 +188,19 @@
 
   function listeChapitres() {
     return el('ol', { class: 'liste-chapitres' },
-      livre.chapitres.map(c => el('li', {},
+      livre.chapitres.map((c, i) => revele(el('li', {},
         el('a', { href: lien('chapitre', c.numero) },
           el('span', { class: 'num-chap' }, String(c.numero).padStart(2, '0')),
           elTrad('span', { class: 'titre-chap' }, c.titre),
           el('span', { class: 'infos-chap' },
             el('span', { class: 'badge' }, c.gratuit ? t('gratuit') : t('extrait')),
             !c.gratuit && el('span', { class: 'prix' }, formatPrix(c.prix)))
-        )))
+        )), i))
     );
   }
 
   function offreComplete(niveau) {
-    return el('div', { class: 'offre' },
+    return revele(el('div', { class: 'offre' },
       el('div', {},
         el(niveau, {}, t('packTitre')),
         el('p', {}, t('packTexte')),
@@ -203,7 +210,7 @@
         el('span', { class: 'prix' }, formatPrix(livre.pack.prix)),
         boutonAchat(livre.pack.lienAchat, livre.pack.prix)
       )
-    );
+    ));
   }
 
   const mentionPaiement = () => el('p', { class: 'mention-paiement' }, icone(ICONE_CADENAS), t('paiementSecurise'));
@@ -217,20 +224,24 @@
 
     return el('div', {},
       el('section', { class: 'hero' },
-        el('img', { class: 'couverture', src: livre.couverture, alt: titreLivre(), width: 600, height: 900 }),
+        revele(el('div', { class: 'cadre-couverture' },
+          el('img', { class: 'couverture', src: livre.couverture, alt: titreLivre(), width: 600, height: 900 }))),
         el('div', {},
-          el('p', { class: 'surtitre' }, t('ebook')),
-          elTrad('h1', { id: 'titre-page', tabindex: '-1' }, livre.titre),
-          el('p', { class: 'auteur' }, t('par', { auteur: livre.auteur })),
-          el('hr', { class: 'filet-orne' }),
-          elTrad('p', { class: 'accroche' }, livre.accroche),
-          el('div', { class: 'presentation', ...attrsLangue(pres.langue) }, (pres.texte || []).map(p => el('p', {}, p))),
-          el('div', { class: 'boutons' },
-            gratuit && el('a', { class: 'bouton', href: lien('chapitre', gratuit.numero) },
-              t('lireGratuit', { n: gratuit.numero }), fleche('→')),
-            el('a', { class: 'bouton secondaire', href: lien('boutique') }, t('voirBoutique'))
-          )
-        )
+          [
+            el('p', { class: 'surtitre' }, t('ebook')),
+            elTrad('h1', { id: 'titre-page', tabindex: '-1' }, livre.titre),
+            el('p', { class: 'auteur' }, t('par', { auteur: livre.auteur })),
+            el('hr', { class: 'filet-orne' }),
+            elTrad('p', { class: 'accroche' }, livre.accroche),
+            el('div', { class: 'presentation', ...attrsLangue(pres.langue) }, (pres.texte || []).map(p => el('p', {}, p))),
+            el('div', { class: 'boutons' },
+              gratuit && el('a', { class: 'bouton', href: lien('chapitre', gratuit.numero) },
+                t('lireGratuit', { n: gratuit.numero }), fleche('→')),
+              el('a', { class: 'bouton secondaire', href: lien('boutique') }, t('voirBoutique'))
+            )
+          ].map((n, i) => revele(n, i + 1))
+        ),
+        el('span', { class: 'indicateur', 'aria-hidden': 'true' })
       ),
       el('section', { class: 'section', 'aria-labelledby': 'titre-sommaire' },
         el('h2', { id: 'titre-sommaire' }, t('sommaire')),
@@ -302,7 +313,7 @@
       el('div', { class: 'section' }, offreComplete('h2')),
       el('h2', {}, t('chapitres')),
       el('ul', { class: 'grille' },
-        livre.chapitres.map(c => el('li', {},
+        livre.chapitres.map((c, i) => revele(el('li', {},
           el('article', { class: 'fiche' },
             el('p', { class: 'surtitre' }, t('chapitreN', { n: c.numero })),
             elTrad('h3', {}, c.titre),
@@ -315,7 +326,7 @@
                 : [boutonAchat(c.lienAchat, c.prix),
                    el('a', { href: lien('chapitre', c.numero) }, t('lireExtrait'))]
             )
-          )))
+          )), i))
       ),
       mentionPaiement()
     );
@@ -384,12 +395,57 @@
       else a.removeAttribute('aria-current');
     }
 
-    app.replaceChildren(vue);
-    window.scrollTo(0, 0);
+    const afficher = () => {
+      app.replaceChildren(vue);
+      window.scrollTo(0, 0);
+    };
+    if (!premierRendu && document.startViewTransition && animations()) {
+      await document.startViewTransition(afficher).updateCallbackDone;
+    } else {
+      afficher();
+    }
+
+    observerApparitions(app);
+    inclinerCouverture(app.querySelector('.cadre-couverture'));
     majProgression();
     activerPaiement();
     if (!premierRendu) document.getElementById('titre-page')?.focus({ preventScroll: true });
     premierRendu = false;
+  }
+
+  // ---------- Effets (désactivés si « réduire les animations ») ----------
+
+  const animations = () => document.documentElement.classList.contains('anim');
+  let observateur = null;
+
+  function observerApparitions(racine) {
+    if (!animations()) return;
+    observateur?.disconnect();
+    observateur = new IntersectionObserver(entrees => {
+      for (const e of entrees) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('visible');
+        observateur.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    racine.querySelectorAll('.reveal').forEach(n => observateur.observe(n));
+  }
+
+  // Légère inclinaison 3D de la couverture qui suit la souris
+  function inclinerCouverture(cadre) {
+    if (!cadre || !animations() || !matchMedia('(hover: hover)').matches) return;
+    cadre.addEventListener('pointermove', e => {
+      const r = cadre.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      cadre.style.setProperty('--rx', `${(-y * 8).toFixed(2)}deg`);
+      cadre.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`);
+      cadre.style.setProperty('--mx', `${((x + 0.5) * 100).toFixed(0)}%`);
+    });
+    cadre.addEventListener('pointerleave', () => {
+      cadre.style.removeProperty('--rx');
+      cadre.style.removeProperty('--ry');
+    });
   }
 
   // ---------- Barre de progression de lecture ----------
@@ -404,7 +460,11 @@
   window.addEventListener('scroll', () => {
     if (attenteProgression) return;
     attenteProgression = true;
-    requestAnimationFrame(() => { majProgression(); attenteProgression = false; });
+    requestAnimationFrame(() => {
+      majProgression();
+      document.querySelector('.entete').classList.toggle('defile', window.scrollY > 8);
+      attenteProgression = false;
+    });
   }, { passive: true });
 
   // ---------- Taille du texte ----------
@@ -428,6 +488,10 @@
       console.error(e);
       app.textContent = 'Erreur de chargement. Lancez le site via un serveur web (voir README.md).';
       return;
+    }
+
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+      document.documentElement.classList.add('anim');
     }
 
     const select = document.getElementById('select-langue');
